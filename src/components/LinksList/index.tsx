@@ -1,6 +1,7 @@
 import { keyboard } from '@testing-library/user-event/dist/keyboard';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Link from './Link';
 import { LinksWrapper } from './styles';
 
@@ -12,6 +13,8 @@ export interface ISocial {
 
 export default function Links() {
 	const [linksData, setLinksData] = useState([]);
+
+	const { username } = useParams();
 
 	function loadIcons(linksList: ISocial[]) {
 		let links: JSX.Element[] = [];
@@ -33,7 +36,7 @@ export default function Links() {
 	useEffect(() => {
 		axios
 			.get(
-				'https://raw.githubusercontent.com/Jphn/my-links-repository/master/links.json'
+				`https://raw.githubusercontent.com/${username}/my-links-repository/master/links.json`
 			)
 			.then((response) => response.data)
 			.then((data) => setLinksData(data));
